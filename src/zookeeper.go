@@ -1,49 +1,45 @@
 package main
 
 import (
-	sdkArgs "github.com/newrelic/infra-integrations-sdk/args"
+	sdk_args "github.com/newrelic/infra-integrations-sdk/args"
 	"github.com/newrelic/infra-integrations-sdk/log"
-	"github.com/newrelic/infra-integrations-sdk/metric"
 	"github.com/newrelic/infra-integrations-sdk/sdk"
 )
 
 type argumentList struct {
-	sdkArgs.DefaultArgumentList
+	sdk_args.DefaultArgumentList
+	CABundleFile string `help:"Alternative Certificate Authority bundle file"`
+	CABundleDir  string `help:"Alternative Certificate Authority bundle directory"`
 }
 
 const (
 	integrationName    = "com.newrelic.zookeeper"
-	integrationVersion = "0.1.0"
+	integrationVersion = "1.0.0"
 )
 
 var args argumentList
 
-func populateInventory(inventory sdk.Inventory) error {
-	// Insert here the logic of your integration to get the inventory data
-	// Ex: inventory.SetItem("softwareVersion", "value", "1.0.1")
-	// --
-	return nil
-}
-
-func populateMetrics(ms *metric.MetricSet) error {
-	// Insert here the logic of your integration to get the metrics data
-	// Ex: ms.SetMetric("requestsPerSecond", 10, metric.GAUGE)
-	// --
-	return nil
-}
-
 func main() {
+	log.Debug("Starting Zookeeper integration")
+	defer log.Debug("Zookeeper integration exited")
+
 	integration, err := sdk.NewIntegration(integrationName, integrationVersion, &args)
 	fatalIfErr(err)
 
-	if args.All || args.Inventory {
-		fatalIfErr(populateInventory(integration.Inventory))
-	}
+	/*
+		if args.All || args.Inventory {
+			log.Debug("Fetching data for '%s' integration", integrationName+"-inventory")
+			fatalIfErr(setInventory(integration.Inventory))
+		}
+	*/
 
 	if args.All || args.Metrics {
-		ms := integration.NewMetricSet("NrZookeeperSample")
-		fatalIfErr(populateMetrics(ms))
+		log.Debug("Fetching data for '%s' integration", integrationName+"-metrics")
+		ms := integration.NewMetricSet("ZookeeperSample")
+
+		fatalIfErr(getMetricsData(ms))
 	}
+
 	fatalIfErr(integration.Publish())
 }
 
