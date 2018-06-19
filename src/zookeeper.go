@@ -1,0 +1,54 @@
+package main
+
+import (
+	sdkArgs "github.com/newrelic/infra-integrations-sdk/args"
+	"github.com/newrelic/infra-integrations-sdk/log"
+	"github.com/newrelic/infra-integrations-sdk/metric"
+	"github.com/newrelic/infra-integrations-sdk/sdk"
+)
+
+type argumentList struct {
+	sdkArgs.DefaultArgumentList
+}
+
+const (
+	integrationName    = "com.newrelic.zookeeper"
+	integrationVersion = "0.1.0"
+)
+
+var args argumentList
+
+func populateInventory(inventory sdk.Inventory) error {
+	// Insert here the logic of your integration to get the inventory data
+	// Ex: inventory.SetItem("softwareVersion", "value", "1.0.1")
+	// --
+	return nil
+}
+
+func populateMetrics(ms *metric.MetricSet) error {
+	// Insert here the logic of your integration to get the metrics data
+	// Ex: ms.SetMetric("requestsPerSecond", 10, metric.GAUGE)
+	// --
+	return nil
+}
+
+func main() {
+	integration, err := sdk.NewIntegration(integrationName, integrationVersion, &args)
+	fatalIfErr(err)
+
+	if args.All || args.Inventory {
+		fatalIfErr(populateInventory(integration.Inventory))
+	}
+
+	if args.All || args.Metrics {
+		ms := integration.NewMetricSet("NrZookeeperSample")
+		fatalIfErr(populateMetrics(ms))
+	}
+	fatalIfErr(integration.Publish())
+}
+
+func fatalIfErr(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
