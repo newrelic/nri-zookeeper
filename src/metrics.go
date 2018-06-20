@@ -12,7 +12,6 @@ import (
 )
 
 var metricsDefinition = map[string][]interface{}{
-	"software.version":           {"zk_version", metric.ATTRIBUTE},
 	"avg_latency":                {"zk_avg_latency", metric.GAUGE},
 	"max_latency":                {"zk_max_latency", metric.GAUGE},
 	"min_latency":                {"zk_min_latency", metric.GAUGE},
@@ -66,7 +65,7 @@ func populateMetrics(sample *metric.MetricSet, metrics map[string]interface{}, m
 		}
 
 		if !ok {
-			log.Debug("Can't find raw metrics in results for %s", metricName)
+			log.Debug("Can't find raw metrics in results for %s [%s]", metricName, rawSource)
 			continue
 		}
 		err := sample.SetMetric(metricName, rawMetric, metricType)
@@ -86,16 +85,16 @@ func populateMetrics(sample *metric.MetricSet, metrics map[string]interface{}, m
 func checkNCExists() {
 	path, err := exec.LookPath("nc")
 	if err != nil {
-		log.Debug("didn't find 'nc' executable\n")
+		log.Error("`nc` executable not found in PATH\n")
 	} else {
-		log.Debug("'nc' executable is in '%s'\n", path)
+		log.Debug("`nc` executable is in '%s'\n", path)
 	}
 }
 
 func getMetricsData(sample *metric.MetricSet) error {
 	checkNCExists()
 
-	cmd := exec.Command("nc", "localhost", "2181")
+	cmd := exec.Command("nc", strings.TrimSpace(args.Host), strconv.Itoa(args.Port))
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
@@ -103,18 +102,18 @@ func getMetricsData(sample *metric.MetricSet) error {
 
 	err := cmd.Run()
 	if err != nil {
-		log.Error("cmd.Run() failed with %s\n", err)
+		log.Error("`nc` command failed with %s\n", err)
 	}
 	outStr, errStr := string(stdout.Bytes()), string(stderr.Bytes())
 	if errStr != "" {
-		log.Debug("err:\n%s\n", errStr)
+		log.Debug("Errors running command:\n%s\n", errStr)
 	}
 
 	rawMetrics := make(map[string]interface{})
 	temp := strings.Split(outStr, "\n")
 	for _, line := range temp {
 		splitedLine := strings.Fields(line)
-		if len(splitedLine) != 2 {
+		if len(splitedLine) < 2 {
 			continue
 		}
 		rawMetrics[splitedLine[0]] = asValue(strings.TrimSpace(splitedLine[1]))

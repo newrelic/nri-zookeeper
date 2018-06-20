@@ -8,8 +8,8 @@ import (
 
 type argumentList struct {
 	sdk_args.DefaultArgumentList
-	CABundleFile string `help:"Alternative Certificate Authority bundle file"`
-	CABundleDir  string `help:"Alternative Certificate Authority bundle directory"`
+	Host string `default:"localhost" help:"Hostname or IP where zookeeper node is running."`
+	Port int    `default:"2181" help:"Port on which zookeeper node is listening."`
 }
 
 const (
