@@ -8,11 +8,11 @@ commands:
     command:
       - ./bin/nr-zookeeper
       - --metrics
-    interval: 15
+    interval: 60
 
   inventory:
     command:
       - ./bin/nr-zookeeper
       - --inventory
     prefix: config/nr-zookeeper
-    interval: 15
+    interval: 60

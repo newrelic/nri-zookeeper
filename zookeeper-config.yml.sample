@@ -4,13 +4,8 @@ instances:
   - name: <INSTANCE IDENTIFIER>
     command: metrics
     arguments:
-      arg1: <ARG_VALUE>
+      port: 2181
     labels:
-      key1: <LABEL_VALUE>
+      role: zookeeper
 
-  - name: <OTHER INSTANCE IDENTIFIER>
-    command: inventory
-    arguments:
-      arg1: <ARG_VALUE>
-    labels:
-      key1: <LABEL_VALUE>
+
