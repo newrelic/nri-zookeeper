@@ -77,24 +77,25 @@ func populateMetrics(sample *metric.MetricSet, metrics map[string]interface{}, m
 	}
 
 	if len(*sample) < 2 {
-		return fmt.Errorf("no metrics were found on the status response. Probably caused by a wrong response format")
+		return fmt.Errorf("No metrics were found on the status response")
 	}
 	return nil
 }
 
-func checkNCExists() {
-	path, err := exec.LookPath("nc")
+func checkNCExists(cmdExecutable string) {
+	path, err := exec.LookPath(cmdExecutable)
 	if err != nil {
-		log.Error("`nc` executable not found in PATH\n")
+		log.Error("%s executable not found in PATH\n", cmdExecutable)
 	} else {
-		log.Debug("`nc` executable is in '%s'\n", path)
+		log.Debug("%s executable is in '%s'\n", cmdExecutable, path)
 	}
 }
 
 func getMetricsData(sample *metric.MetricSet) error {
-	checkNCExists()
+	cmdExecutable := strings.TrimSpace(args.Cmd)
 
-	cmd := exec.Command("nc", strings.TrimSpace(args.Host), strconv.Itoa(args.Port))
+	checkNCExists(cmdExecutable)
+	cmd := exec.Command(cmdExecutable, strings.TrimSpace(args.Host), strconv.Itoa(args.Port))
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
@@ -102,7 +103,7 @@ func getMetricsData(sample *metric.MetricSet) error {
 
 	err := cmd.Run()
 	if err != nil {
-		log.Error("`nc` command failed with %s\n", err)
+		log.Error("%s command failed with %s\n", cmdExecutable, err)
 	}
 	outStr, errStr := string(stdout.Bytes()), string(stderr.Bytes())
 	if errStr != "" {

@@ -10,6 +10,7 @@ type argumentList struct {
 	sdk_args.DefaultArgumentList
 	Host string `default:"localhost" help:"Hostname or IP where zookeeper node is running."`
 	Port int    `default:"2181" help:"Port on which zookeeper node is listening."`
+	Cmd  string `default:"nc" help:"Command to use for tcp connection to zookeeper [nc | tcp | telnet"`
 }
 
 const (
