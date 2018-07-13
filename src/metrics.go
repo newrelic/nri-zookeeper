@@ -29,6 +29,8 @@ var metricsDefinition = map[string][]interface{}{
 	"open_file_descriptor_count": {"zk_open_file_descriptor_count", metric.GAUGE},
 	"max_file_descriptor_count":  {"zk_max_file_descriptor_count", metric.GAUGE},
 	"status":                     {"status", metric.GAUGE},
+	"zk_host":                    {"zk_host", metric.ATTRIBUTE},
+	"zk_port":                    {"zk_port", metric.ATTRIBUTE},
 }
 
 func asValue(value string) interface{} {
@@ -115,6 +117,8 @@ func getMetricsData(sample *metric.MetricSet) error {
 	checkNCExists(cmdExecutable)
 
 	rawMetrics := make(map[string]interface{})
+	rawMetrics["zk_host"] = args.Host
+	rawMetrics["zk_port"] = strconv.Itoa(args.Port)
 
 	outStr := runCommand(cmdExecutable, "mntr")
 	temp := strings.Split(outStr, "\n")
