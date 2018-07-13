@@ -28,6 +28,7 @@ var metricsDefinition = map[string][]interface{}{
 	"pending_syncs":              {"zk_pending_syncs", metric.GAUGE},
 	"open_file_descriptor_count": {"zk_open_file_descriptor_count", metric.GAUGE},
 	"max_file_descriptor_count":  {"zk_max_file_descriptor_count", metric.GAUGE},
+	"status":                     {"status", metric.GAUGE},
 }
 
 func asValue(value string) interface{} {
@@ -91,15 +92,12 @@ func checkNCExists(cmdExecutable string) {
 	}
 }
 
-func getMetricsData(sample *metric.MetricSet) error {
-	cmdExecutable := strings.TrimSpace(args.Cmd)
-
-	checkNCExists(cmdExecutable)
+func runCommand(cmdExecutable string, zkCommand string) string {
 	cmd := exec.Command(cmdExecutable, strings.TrimSpace(args.Host), strconv.Itoa(args.Port))
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
-	cmd.Stdin = strings.NewReader("mntr")
+	cmd.Stdin = strings.NewReader(zkCommand)
 
 	err := cmd.Run()
 	if err != nil {
@@ -109,8 +107,16 @@ func getMetricsData(sample *metric.MetricSet) error {
 	if errStr != "" {
 		log.Debug("Errors running command:\n%s\n", errStr)
 	}
+	return outStr
+}
+
+func getMetricsData(sample *metric.MetricSet) error {
+	cmdExecutable := strings.TrimSpace(args.Cmd)
+	checkNCExists(cmdExecutable)
 
 	rawMetrics := make(map[string]interface{})
+
+	outStr := runCommand(cmdExecutable, "mntr")
 	temp := strings.Split(outStr, "\n")
 	for _, line := range temp {
 		splitedLine := strings.Fields(line)
@@ -118,6 +124,13 @@ func getMetricsData(sample *metric.MetricSet) error {
 			continue
 		}
 		rawMetrics[splitedLine[0]] = asValue(strings.TrimSpace(splitedLine[1]))
+	}
+
+	outStr = runCommand(cmdExecutable, "ruok")
+	if strings.Contains(outStr, "imok") {
+		rawMetrics["status"] = 1
+	} else {
+		rawMetrics["status"] = 0
 	}
 
 	return populateMetrics(sample, rawMetrics, metricsDefinition)
