@@ -1,5 +1,5 @@
 INTEGRATION  := $(shell basename $(shell pwd))
-BINARY_NAME   = nr-$(INTEGRATION)
+BINARY_NAME   = nr-zookeeper
 GO_PKGS      := $(shell go list ./... | grep -v "/vendor/")
 GO_FILES     := $(shell find src -type f -name "*.go")
 VALIDATE_DEPS = github.com/golang/lint/golint

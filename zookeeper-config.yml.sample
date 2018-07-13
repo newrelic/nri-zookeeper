@@ -4,7 +4,9 @@ instances:
   - name: <INSTANCE IDENTIFIER>
     command: metrics
     arguments:
+      host: localhost
       port: 2181
+      cmd: nc
     labels:
       role: zookeeper
 
