@@ -1,9 +1,11 @@
 # New Relic Infrastructure Integration for Zookeeper
 New Relic Infrastructure Integration for Zookeeper captures critical performance metrics reported by Zookeeper nodes.
 
+## Disclaimer
+New Relic has open-sourced this integration to enable monitoring of this technology. This integration is provided AS-IS WITHOUT WARRANTY OR SUPPORT, although you can report issues and contribute to this integration via GitHub. Support for this integration is available with an [Expert Services subscription](newrelic.com/expertservices).
+
 ## Requirements
 * Apache Zookeeper 3.4 or above
-
 
 ## Installation
 * Download an archive file for the Zookeeper Integration
@@ -18,7 +20,6 @@ New Relic Infrastructure Integration for Zookeeper captures critical performance
       port: 2181
       cmd: /bin/nc  <-- this PATH varies per OS
 ```
-
 
 ## Usage
 This is the description about how to run the Zookeeper Integration with New Relic Infrastructure agent, so it is required to have the agent installed (see [agent installation](https://docs.newrelic.com/docs/infrastructure/new-relic-infrastructure/installation/install-infrastructure-linux)).
