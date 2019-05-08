@@ -31,6 +31,7 @@ var metricsDefinition = map[string][]interface{}{
 	"status":                     {"status", metric.GAUGE},
 	"zk_host":                    {"zk_host", metric.ATTRIBUTE},
 	"zk_port":                    {"zk_port", metric.ATTRIBUTE},
+	"num_alive_connections":      {"zk_num_alive_connections", metric.GAUGE},
 }
 
 func asValue(value string) interface{} {
