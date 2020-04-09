@@ -9,7 +9,8 @@ New Relic has open-sourced this integration to enable monitoring of this technol
 
 ## Installation
 * Download an archive file for the Zookeeper Integration
-* Place the executables under `bin` directory and the definition file `zookeeper-definition.yml` in `/var/db/newrelic-infra/newrelic-integrations`
+* Place the executables`nr-zookeeper` in `/var/db/newrelic-infra/newrelic-integrations/bin/` directory
+* Place the definition file `zookeeper-definition.yml` in `/var/db/newrelic-infra/newrelic-integrations` directory
 * Set execution permissions for the binary files `nr-zookeeper`
 * Place the integration configuration file `zookeeper-config.yml.sample` in `/etc/newrelic-infra/integrations.d` and update its values.
 * Verify the path to  `nc` utility in the  `zookeeper-config.yml`  
