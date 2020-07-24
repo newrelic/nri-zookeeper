@@ -88,20 +88,9 @@ $ make test
 
 ## Support
 
-Should you need assistance with New Relic products, you are in good hands with several support diagnostic tools and support channels.
+### Disclaimer
 
-> This [troubleshooting framework](https://discuss.newrelic.com/t/troubleshooting-frameworks/108787) steps you through common troubleshooting questions.
-
-> New Relic offers NRDiag, [a client-side diagnostic utility](https://docs.newrelic.com/docs/using-new-relic/cross-product-functions/troubleshooting/new-relic-diagnostics) that automatically detects common problems with New Relic agents. If NRDiag detects a problem, it suggests troubleshooting steps. NRDiag can also automatically attach troubleshooting data to a New Relic Support ticket.
-
-If the issue has been confirmed as a bug or is a Feature request, please file a Github issue.
-
-**Support Channels**
-
-* [New Relic Documentation](https://docs.newrelic.com): Comprehensive guidance for using our platform
-* [New Relic Community](https://discuss.newrelic.com): The best place to engage in troubleshooting questions
-* [New Relic Developer](https://developer.newrelic.com/): Resources for building a custom observability applications
-* [New Relic University](https://learn.newrelic.com/): A range of online training for New Relic users of every level
+New Relic has open-sourced this integration to enable monitoring of this technology. This integration is provided AS-IS WITHOUT WARRANTY OR SUPPORT, although you can report issues and contribute to this integration via GitHub. Support for this integration is available with an [Expert Services subscription](https://newrelic.com/expertservices).
 
 ## Privacy
 
