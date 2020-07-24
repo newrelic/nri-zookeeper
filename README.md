@@ -11,10 +11,11 @@ The New Relic infrastructure integration for Zookeeper captures critical perform
 ## Installation 
 
 * Download the Zookeeper Integration from [Releases](https://github.com/newrelic/nri-zookeeper/releases).
-* Place the executables under the `bin` directory, and the `zookeeper-definition.yml` config file under `/var/db/newrelic-infra/newrelic-integrations`.
-* Set execution permissions for the binary files `nr-zookeeper`.
+* Place the executable `nr-zookeeper` in `/var/db/newrelic-infra/newrelic-integrations/bin/`.
+* Place the definition file `zookeeper-definition.yml` in `/var/db/newrelic-infra/newrelic-integrations`.
+* Set execution permissions for the binary files `nr-zookeeper`
 * Place the integration configuration file `zookeeper-config.yml.sample` in `/etc/newrelic-infra/integrations.d` and update its values.
-* Verify the path to the `nc` utility in the  `zookeeper-config.yml`:
+* Verify the path to  `nc` utility in the  `zookeeper-config.yml`  
 
   ```
       arguments:
