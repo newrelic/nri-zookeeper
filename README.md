@@ -63,18 +63,18 @@ After cloning this repository, go to the directory of the Zookeeper integration 
 $ make
 ```
 
-The command above executes the tests for the Zookeeper integration and builds an executable file called `nri-zookeeper` under the `bin` directory. 
+The command above executes the tests for the Zookeeper integration and builds an executable file called `nr-zookeeper` under the `bin` directory. 
 
-To start the integration, run `nri-zookeeper`:
+To start the integration, run `nr-zookeeper`:
 
 ```bash
-$ ./bin/nri-zookeeper
+$ ./bin/nr-zookeeper
 ```
 
-If you want to know more about usage of `./bin/nri-zookeeper`, pass the `-help` parameter:
+If you want to know more about usage of `./bin/nr-zookeeper`, pass the `-help` parameter:
 
 ```bash
-$ ./bin/nri-zookeeper -help
+$ ./bin/nr-zookeeper -help
 ```
 
 External dependencies are managed through the [govendor tool](https://github.com/kardianos/govendor). Locking all external dependencies to a specific version (if possible) into the vendor directory is required.
